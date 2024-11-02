@@ -1,0 +1,36 @@
+{
+  "name": "image-map-creator",
+  "version": "2.0.1",
+  "description": "This is a simple map creator tool made with the p5.js library. I want it\r to be easy to use for both the end user and the developper.",
+  "module": "dist/p5.image-map-creator.mjs",
+  "main": "dist/p5.image-map-creator.js",
+  "types": "dist/src/p5.image-map-creator.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "esbuild src/p5.image-map-creator.ts --outfile=dist/image-map-creator.bundle.js --bundle --sourcemap --target=es2016",
+    "build": "esbuild src/p5.image-map-creator.ts --outfile=dist/image-map-creator.min.js --bundle --sourcemap --target=es2016 --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n-peugnet/image-map-creator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/n-peugnet/image-map-creator/issues"
+  },
+  "homepage": "https://github.com/n-peugnet/image-map-creator#readme",
+  "devDependencies": {
+    "@types/downloadjs": "^1.4.2",
+    "@types/p5": "^1.4.2",
+    "esbuild": "^0.23.0",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "downloadjs": "^1.4.7",
+    "image-map-creator": "^2.0.1",
+    "quicksettings": "^3.0.1",
+    "undo-manager": "^1.0.5"
+  }
+}
