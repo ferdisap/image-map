@@ -3,13 +3,13 @@ TSC     ?= node_modules/.bin/tsc
 
 define ESBUILDCMD
 $(ESBUILD) src/p5.image-map-creator.ts \
-	--outfile=dist/image-map-creator.min.js \
+	--outfile=dist/assets/image-map-creator.min.js \
 	--bundle --sourcemap --target=es2016 --minify
 endef
 
 define ESBUILDNPMCMD
 $(ESBUILD) src/p5.image-map-creator.ts \
-	--outdir=dist --bundle \
+	--outdir=dist/assets --bundle \
 	--external:downloadjs \
 	--external:quicksettings \
 	--external:undo-manager
