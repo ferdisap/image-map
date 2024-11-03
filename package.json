@@ -7,9 +7,8 @@
   "types": "dist/src/p5.image-map-creator.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "esbuild src/p5.image-map-creator.ts --outfile=demos/image-map-creator.bundle.js --bundle --sourcemap --target=es2016",
-    "build": "esbuild src/p5.image-map-creator.ts --outfile=demos/image-map-creator.min.js --bundle --sourcemap --target=es2016 --minify",
-    "tes": "esbuild src/demos/index.html"
+    "dev": "esbuild src/p5.image-map-creator.ts --outfile=dist/image-map-creator.bundle.js --bundle --sourcemap --target=es2016",
+    "build": "esbuild src/p5.image-map-creator.ts --outfile=dist/image-map-creator.min.js --bundle --sourcemap --target=es2016 --minify"
   },
   "repository": {
     "type": "git",

@@ -3,7 +3,7 @@ TSC     ?= node_modules/.bin/tsc
 
 define ESBUILDCMD
 $(ESBUILD) src/p5.image-map-creator.ts \
-	--outfile=demos/image-map-creator.bundle.js \
+	--outfile=dist/image-map-creator.bundle.js \
 	--bundle --sourcemap --target=es2016 --minify
 endef
 

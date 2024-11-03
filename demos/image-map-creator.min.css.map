@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../lib/contextmenu/contextmenu.css"],
-  "sourcesContent": ["div.context-menu {\r\n\tposition : fixed;\r\n\tborder: 1px solid #ccc;\r\n\tbackground-color: #eee;\r\n\tmin-width : 100px;\r\n\tpadding: 2px;\r\n\tbox-shadow : 2px 2px 4px #444;\r\n\tdisplay : inline-block;\r\n\tz-index : 10002;\r\n\tcursor : default;\r\n}\r\n\r\ndiv.context-menu>div {\r\n\tpadding : 5px 25px;\r\n\tfont-family: sans-serif;\r\n\tfont-size: 0.8em;\r\n}\r\n\r\ndiv.context-menu-item:hover {\r\n\tbackground-color : #c3d6ee;\r\n}\r\n\r\ndiv.context-menu-item-disabled {\r\n\tcolor : #aaa;\r\n}\r\n"],
-  "mappings": "AAAA,GAAG,CAAC,aACH,SAAW,MACX,OAAQ,IAAI,MAAM,KAClB,iBAAkB,KAClB,UAAY,MAJb,QAKU,IACT,WAAa,IAAI,IAAI,IAAI,KACzB,QAAU,aACV,QAAU,MACV,OAAS,OACV,CAEA,GAAG,CAZC,YAYY,CAAC,IAZjB,QAaW,IAAI,KACd,YAAa,WACb,UAAW,IACZ,CAEA,GAAG,CAAC,iBAAiB,OACpB,iBAAmB,OACpB,CAEA,GAAG,CAAC,2BACH,MAAQ,IACT",
-  "names": []
-}
