@@ -14,6 +14,7 @@ import QuickSettings from "quicksettings";
 import * as ContextMenu from "../lib/contextmenu/contextmenu";
 import "../lib/contextmenu/contextmenu.css";
 import type P5 from "p5";
+import indexUrl from '../demos/index.html';
 
 export type Tool = "circle" | "polygon" | "rectangle" | "select" | "delete" | "test";
 export type Image = {
