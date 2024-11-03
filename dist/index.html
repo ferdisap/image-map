@@ -16,12 +16,27 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.js"></script>
 <!--  End of JS libraries requierments  -->
 
+<style>
+  body{
+    margin: 0px;
+    padding: 10px;
+  }
+  body > div#div-1 {
+    position: relative;
+  }
+  .qs_main {
+    max-height: 100%;
+    overflow: auto;
+    right: 0px;
+    left: revert;
+  }
+</style>
 </head>
 
-<body style="margin:0px;">
+<body>
 
 	<!-- A <div> with an id -->
-	<div id="div-1" style="position: relative;"></div>
+	<div id="div-1"></div>
 
 	<!-- Optionnal control buttons -->
 	<!-- <button onclick="logMap()">Log Map</button> -->
@@ -41,8 +56,8 @@
       }
       imcreator.p5.canvas.style.width = '100%'
       imcreator.p5.canvas.style.height = '100%'
-    },10);
-    top.imc = imcreator;
+    },100);
+    // top.imc = imcreator;
 	</script>
 
 	<!-- Another <script> (optionnal) for the optionnal buttons -->
