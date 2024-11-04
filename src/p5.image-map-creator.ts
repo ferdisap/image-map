@@ -14,6 +14,7 @@ import QuickSettings from "quicksettings";
 import * as ContextMenu from "../lib/contextmenu/contextmenu";
 import "../lib/contextmenu/contextmenu.css";
 import type P5 from "p5";
+import HandleFileEvent from './HandleFileEvent';
 
 export type Tool = "circle" | "polygon" | "rectangle" | "select" | "delete" | "test";
 export type Image = {
@@ -395,6 +396,9 @@ export class imageMapCreator {
 	}
 
 	handeFile(file: P5.File): void {
+    // const handleFileEvent = new Event('handleFile');
+    // handleFileEvent.data = {file: file.file};
+    HandleFileEvent.dispatch(document, file.file)
 		if (file.type == "image") {
 			this.img.data = this.p5.loadImage(file.data, img => this.resetView(img));
 			this.img.file = file.file;

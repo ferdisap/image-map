@@ -22,6 +22,29 @@
       padding: 10px;
     }
 
+    body>div.topbar {
+      display: flex;
+    }
+
+    body>div.topbar div {
+      display: block;
+      margin-left: 0.25rem;
+    }
+
+    body>div.topbar div label {
+      display: block;
+      font-size: small;
+      font-weight: bold;
+    }
+
+    body>div.topbar div input {
+      width: 5rem;
+      padding: 0.25rem;
+      border: 1px solid gray;
+      border-radius: 0.3rem;
+      margin-top: 0.125rem;
+    }
+
     body>div#div-1 {
       position: relative;
       border: 1px solid grey;
@@ -51,8 +74,24 @@
 </head>
 
 <body>
-  <div>
+  <div class="topbar">
     <input type="file" id="inputtypefile">
+    <div>
+      <label for="imageName">Name</label>
+      <input id="imageName"></input>
+    </div>
+    <div>
+      <label for="imageWidth">Width (px)</label>
+      <input id="imageWidth"></input>
+    </div>
+    <div>
+      <label for="imageHeight">Height (px)</label>
+      <input id="imageHeight"></input>
+    </div>
+    <div>
+      <label for="imageSize">Size (byte)</label>
+      <input id="imageSize"></input>
+    </div>
   </div>
   <!-- A <div> with an id -->
   <div id="div-1"></div>
@@ -63,18 +102,39 @@
 
   <!-- A <script> to enable the tool on the disired div -->
   <script type="text/javascript">
+    function fillInfo(name,size,width,height){
+      document.getElementById('imageWidth').value = width;
+      document.getElementById('imageHeight').value = height;
+      document.getElementById('imageSize').value = size;
+      document.getElementById('imageName').value = name;
+    }
+
     // input listener
     const input = document.getElementById('inputtypefile');
     input.addEventListener('change', (evt) => {
+      top.evt = evt
       p5file = new p5.File(evt.target.files[0]);
       const fr = new FileReader();
+      const img = document.createElement('img');
       fr.onload = () => {
         p5file.data = fr.result;
         imcreator.handeFile(p5file);
+        // display image size
+        img.src = fr.result;
+        img.onload = () => {
+          fillInfo(evt.target.files[0].name,evt.target.files[0].size,img.width, img.height);
+        }
       }
       fr.readAsDataURL(evt.target.files[0]);
     })
 
+    // listen handlefile
+    document.addEventListener('handlefile',(e) => {
+      top.evt = e;
+      fillInfo(e.name, e.size, e.width, e.height)
+    })
+
+    // styling panel
     const imcreator = new imageMapCreator("div-1", window.innerWidth, (window.innerHeight - input.clientHeight - 20));
     setTimeout(() => {
       imcreator.settings._panel.style.left = 'revert';
