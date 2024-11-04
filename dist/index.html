@@ -112,7 +112,6 @@
     // input listener
     const input = document.getElementById('inputtypefile');
     input.addEventListener('change', (evt) => {
-      top.evt = evt
       p5file = new p5.File(evt.target.files[0]);
       const fr = new FileReader();
       const img = document.createElement('img');
@@ -130,7 +129,6 @@
 
     // listen handlefile
     document.addEventListener('handlefile',(e) => {
-      top.evt = e;
       fillInfo(e.name, e.size, e.width, e.height)
     })
 
