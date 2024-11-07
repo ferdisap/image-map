@@ -144,7 +144,13 @@
       }
       imcreator.p5.canvas.style.width = '100%'
       imcreator.p5.canvas.style.height = '100%'
-    }, 100);
+
+      imcreator.settings._panel.addEventListener('mouseup',(e) => e.stopPropagation());
+      imcreator.settings._panel.addEventListener('mousedown',(e) => e.stopPropagation());
+      imcreator.settings._panel.addEventListener('pointerup',(e) => e.stopPropagation());
+      imcreator.settings._panel.addEventListener('pointerdown',(e) => e.stopPropagation());
+      imcreator.settings._panel.addEventListener('click',(e) => e.stopPropagation());
+    }, 200);
 
   </script>
 
