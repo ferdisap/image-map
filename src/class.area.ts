@@ -6,15 +6,15 @@ import type P5 from "p5";
 export type Shape = "empty" | "rect" | "circle" | "poly" | "default";
 
 export function makeid(length: number) {
-  let result: string = "";
-  const characters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  let counter: number = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-  return result;
+	let result: string = "";
+	const characters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	const charactersLength = characters.length;
+	let counter: number = 0;
+	while (counter < length) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		counter += 1;
+	}
+	return result;
 }
 
 export abstract class Area {
@@ -202,14 +202,24 @@ export abstract class Area {
 	toSvg(scale = 1): string {
 		return `<a xlink:href="${this.href}">${this.svgArea(scale)}</a>`;
 	}
-  
+
 	toImf(scale: number = 1, index: number = 0): string {
 		let htmlCoords = this.htmlCoords(0, scale);
 		htmlCoords = htmlCoords ? `objectCoordinates="${htmlCoords}"` : "";
 		const title = this.title ? `icnObjectTitle="${this.title}"` : "";
-    let i: string = ('000' + index);
-    i = i.substring(i.length-3);
-    return `<icnObject icnObjectIdent="hot-${i}" ${htmlCoords} ${title} icnObjectType="${this.shape}"/>`;
+		let i: string = ('000' + index);
+		i = i.substring(i.length - 3);
+		return `<icnObject icnObjectIdent="hot-${i}" ${htmlCoords} ${title} icnObjectType="${this.shape}"/>`;
+	}
+
+	// hotspot always be in poly. If shape is circle then the analyzer must ensure the coordinate is in 3 coordinates
+	toHot(scale: number = 1, index: number = 0): string {
+		let htmlCoords = this.htmlCoords(0, scale);
+		htmlCoords = htmlCoords ? `objectCoordinates="${htmlCoords}"` : "";
+		const title = this.title ? `hotspotTitle="${this.title}"` : "";
+		let i: string = ('000' + index);
+		i = i.substring(i.length - 3);
+		return `<hotspot applicationStructureIdent="hot-${i}" ${htmlCoords} ${title}/>`;
 	}
 
 	abstract isDrawable(): boolean;
@@ -234,7 +244,7 @@ export class AreaEmpty extends Area {
 		return false;
 	}
 
-	display(p: P5): void {}
+	display(p: P5): void { }
 }
 
 export class AreaCircle extends Area {

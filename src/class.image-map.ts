@@ -153,6 +153,16 @@ export class ImageMap {
 		return '<icnObjectGroup>\n' + areas.join('\n')+'\n</icnObjectGroup>';
 	}
 
+	toHot(scale = 1): string {
+		let areas: string[] = [];
+		this.getAreas().forEach((a,k) => {
+			if (a.isValidShape()) {
+				areas.push('\t' + a.toHot(scale,k+1));
+			}
+		});
+		return '<graphic>\n' + areas.join('\n')+'\n</graphic>';
+	}
+
 	toSvg(scale = 1): string {
 		let areas: string[] = [];
 		this.getAreas(false).forEach(a => {

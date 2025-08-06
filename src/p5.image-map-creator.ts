@@ -154,6 +154,7 @@ export class imageMapCreator {
 			.addButton("Generate Html", () => { this.settings.setValue("Output", this.map.toHtml()) })
 			.addButton("Generate Svg", () => { this.settings.setValue("Output", this.map.toSvg()) })
 			.addButton("Generate Imf", () => { this.settings.setValue("Output", this.map.toImf()) })
+			.addButton("Generate Hot", () => { this.settings.setValue("Output", this.map.toHot()) })
 			.addTextArea("Output")
 			.addButton("Save", this.save.bind(this));
 		//@ts-ignore Fix for oncontextmenu
