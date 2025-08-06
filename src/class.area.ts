@@ -1,4 +1,4 @@
-import { round } from "./utils";
+import { randStr, round } from "./utils";
 import { Coord } from "./class.coord";
 import { ImageMap } from "./class.image-map";
 import type P5 from "p5";
@@ -219,7 +219,8 @@ export abstract class Area {
 		const title = this.title ? `hotspotTitle="${this.title}"` : "";
 		let i: string = ('000' + index);
 		i = i.substring(i.length - 3);
-		return `<hotspot applicationStructureIdent="hot-${i}" ${htmlCoords} ${title}/>`;
+		const id = "hot-" + i +"-" + randStr(3);
+		return `<hotspot id="${id}" applicationStructureIdent="hot-${i}" ${htmlCoords} ${title}/>`;
 	}
 
 	abstract isDrawable(): boolean;

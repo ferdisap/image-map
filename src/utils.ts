@@ -14,3 +14,13 @@ export function round(x: number, digits: number): number {
 export function openWindow(url: string, width = 400, height = 300): void {
 	window.open(url, "_blank", `width=${width},height=${height}`);
 }
+
+export function randStr(length: number): string {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let result = '';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
