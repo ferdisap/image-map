@@ -1,9 +1,11 @@
 import { Area, AreaDefault } from "./class.area";
+import { randStr } from "./utils";
 
 export class ImageMap {
 
 	protected dArea: AreaDefault = new AreaDefault(this);
 	protected lastId: number = 0;
+	protected filename: string;
 
 	/**
 	 * Contructor
@@ -17,7 +19,9 @@ export class ImageMap {
 		protected areas: Area[] = [],
 		protected name: string = "",
 		public hasDefaultArea: boolean = false
-	) {}
+	) {
+		this.filename = randStr(5);
+	}
 
 	setFromObject(obj: Object): this {
 		const iMap = obj as ImageMap;
@@ -135,9 +139,9 @@ export class ImageMap {
 
 	toHtml(scale = 1): string {
 		let areas: string[] = [];
-		this.getAreas().forEach(a => {
+		this.getAreas().forEach((a,k) => {
 			if (a.isValidShape()) {
-				areas.push('\t' + a.toHtml(scale));
+				areas.push('\t' + a.toHtml(scale, this.name, k+1));
 			}
 		});
 		return '<map name="' + this.name + '" id="' + this.name + '">\n' + areas.join('\n') + '\n</map>';
@@ -147,7 +151,7 @@ export class ImageMap {
 		let areas: string[] = [];
 		this.getAreas().forEach((a,k) => {
 			if (a.isValidShape()) {
-				areas.push('\t' + a.toImf(scale,k+1));
+				areas.push('\t' + a.toImf(scale, this.name, k+1));
 			}
 		});
 		return '<icnObjectGroup>\n' + areas.join('\n')+'\n</icnObjectGroup>';
@@ -157,7 +161,7 @@ export class ImageMap {
 		let areas: string[] = [];
 		this.getAreas().forEach((a,k) => {
 			if (a.isValidShape()) {
-				areas.push('\t' + a.toHot(scale,k+1));
+				areas.push('\t' + a.toHot(scale,this.name,k+1));
 			}
 		});
 		return '<graphic>\n' + areas.join('\n')+'\n</graphic>';

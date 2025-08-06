@@ -1,7 +1,7 @@
-import { randStr, round } from "./utils";
 import { Coord } from "./class.coord";
 import { ImageMap } from "./class.image-map";
 import type P5 from "p5";
+import { round } from "./utils";
 
 export type Shape = "empty" | "rect" | "circle" | "poly" | "default";
 
@@ -191,11 +191,14 @@ export abstract class Area {
 		}).join(',');
 	}
 
-	toHtml(scale: number = 1): string {
+	toHtml(scale: number = 1, name:string, index:number = 0): string {
 		let htmlCoords = this.htmlCoords(0, scale);
 		htmlCoords = htmlCoords ? `coords="${htmlCoords}"` : "";
 		const href = this.href ? `href="${this.href}"` : "nohref";
 		const title = this.title ? `title="${this.title}"` : "";
+		let i: string = ('000' + index);
+		i = i.substring(i.length - 3);
+		const id = "hot-" + i +"-" + name;
 		return `<area shape="${this.shape}" ${htmlCoords} ${href} alt="${this.href}" ${title} />`;
 	}
 
@@ -203,23 +206,24 @@ export abstract class Area {
 		return `<a xlink:href="${this.href}">${this.svgArea(scale)}</a>`;
 	}
 
-	toImf(scale: number = 1, index: number = 0): string {
+	toImf(scale: number = 1, name:string, index: number = 0): string {
 		let htmlCoords = this.htmlCoords(0, scale);
 		htmlCoords = htmlCoords ? `objectCoordinates="${htmlCoords}"` : "";
 		const title = this.title ? `icnObjectTitle="${this.title}"` : "";
 		let i: string = ('000' + index);
 		i = i.substring(i.length - 3);
-		return `<icnObject icnObjectIdent="hot-${i}" ${htmlCoords} ${title} icnObjectType="${this.shape}"/>`;
+		const id = "hot-" + i +"-" + name;
+		return `<icnObject id="${id}" icnObjectIdent="hot-${i}" ${htmlCoords} ${title} icnObjectType="${this.shape}"/>`;
 	}
 
 	// hotspot always be in poly. If shape is circle then the analyzer must ensure the coordinate is in 3 coordinates
-	toHot(scale: number = 1, index: number = 0): string {
+	toHot(scale: number = 1, name:string, index: number = 0): string {
 		let htmlCoords = this.htmlCoords(0, scale);
 		htmlCoords = htmlCoords ? `objectCoordinates="${htmlCoords}"` : "";
 		const title = this.title ? `hotspotTitle="${this.title}"` : "";
 		let i: string = ('000' + index);
 		i = i.substring(i.length - 3);
-		const id = "hot-" + i +"-" + randStr(3);
+		const id = "hot-" + i +"-" + name;
 		return `<hotspot id="${id}" applicationStructureIdent="hot-${i}" ${htmlCoords} ${title}/>`;
 	}
 
