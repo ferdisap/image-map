@@ -1,11 +1,15 @@
 import { Area, AreaDefault } from "./class.area";
-import { randStr } from "./utils";
+import { randStr, removeExtension } from "./utils";
 
 export class ImageMap {
 
 	protected dArea: AreaDefault = new AreaDefault(this);
 	protected lastId: number = 0;
-	protected filename: string;
+	protected _name:string;
+	width:number;
+	height:number;
+	protected areas: Area[];
+	public hasDefaultArea: boolean = false
 
 	/**
 	 * Contructor
@@ -14,13 +18,25 @@ export class ImageMap {
 	 * @param {boolean} hasDefaultArea
 	 */
 	constructor(
-		public width: number,
-		public height: number,
-		protected areas: Area[] = [],
-		protected name: string = "",
-		public hasDefaultArea: boolean = false
+		width: number,
+		height: number,
+		areas: Area[] = [],
+		name: string = "",
+		hasDefaultArea: boolean = false
 	) {
-		this.filename = randStr(5);
+		this.width = width;
+		this.height = height;
+		this._name = name;
+		this.areas = areas;
+		this.hasDefaultArea = hasDefaultArea;
+	}
+
+	get name():string{
+		return removeExtension(this._name);
+	}
+
+	set name(name:string) {
+		this._name = name;
 	}
 
 	setFromObject(obj: Object): this {

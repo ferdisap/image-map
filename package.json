@@ -7,8 +7,8 @@
   "types": "dist/src/p5.image-map-creator.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "esbuild src/p5.image-map-creator.ts --outfile=dist/image-map-creator.bundle.js --bundle --sourcemap --target=es2016",
-    "build": "esbuild src/p5.image-map-creator.ts --outfile=dist/image-map-creator.min.js --bundle --sourcemap --target=es2016 --minify"
+    "dev": "esbuild src/p5.image-map-creator.ts --outfile=dist/image-map-creator.bundle.js --bundle --sourcemap --target=es2016 & esbuild src/drawByCoord.ts --outfile=dist/drawByCoord.js --target=es2016",
+    "build": "esbuild src/p5.image-map-creator.ts --outfile=dist/image-map-creator.min.js --bundle --sourcemap --target=es2016 --minify & esbuild src/drawByCoord.ts --outfile=dist/drawByCoord.js --target=es2016"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "downloadjs": "^1.4.7",
     "image-map-creator": "^2.0.1",
     "quicksettings": "^3.0.1",
-    "undo-manager": "^1.0.5"
+    "undo-manager": "^1.0.5",
+    "vite": "^7.1.4"
   }
 }

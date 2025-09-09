@@ -15,11 +15,12 @@ import * as ContextMenu from "../lib/contextmenu/contextmenu";
 import "../lib/contextmenu/contextmenu.css";
 import type P5 from "p5";
 import HandleFileEvent from './HandleFileEvent';
+import { HandleCreatedArea } from './HandleCreatedArea';
 
 export type Tool = "circle" | "polygon" | "rectangle" | "select" | "delete" | "test";
 export type Image = {
-	data: P5.Image|null,
-	file: P5.File|null,
+	data: P5.Image | null,
+	file: P5.File | null,
 };
 export type ToolLabel = {
 	key: string,
@@ -29,7 +30,7 @@ export type View = { scale: number, transX: number, transY: number, };
 export type Zoom = { min: number, max: number, sensativity: number, };
 
 export class Save {
-	constructor (public version: string, public map: ImageMap) {}
+	constructor(public version: string, public map: ImageMap) { }
 }
 
 /**
@@ -63,8 +64,8 @@ export class imageMapCreator {
 	};
 	protected tempArea: AreaEmpty;
 	protected selection: Selection;
-	protected hoveredArea: Area|null;
-	protected hoveredPoint: Coord|null;
+	protected hoveredArea: Area | null;
+	protected hoveredPoint: Coord | null;
 	public map: ImageMap;
 	protected undoManager: any;
 	protected img: Image;
@@ -96,7 +97,7 @@ export class imageMapCreator {
 		this.hoveredPoint = null;
 		this.map = new ImageMap(width, height);
 		this.undoManager = new UndoManager();
-		this.img = {data: null, file: null};
+		this.img = { data: null, file: null };
 		this.view = {
 			scale: 1,
 			transX: 0,
@@ -114,6 +115,54 @@ export class imageMapCreator {
 		// Must be the last instruction of the constructor.
 		// @ts-ignore p5 is supposed to be in the global scope
 		this.p5 = new p5(this.sketch.bind(this), element);
+	}
+
+	/**
+	 * TAMBAHAN
+	 * untuk menggambar circle berdasarkan coordinates
+	 */
+	drawCircleByCoord(coords:Array<number>) {
+		// const coordinate = new Coord(coords[0], coords[1]);
+		// this.tempArea = new AreaCircle([coordinate]);
+		// this.tempArea.radius = coords[2];
+		// this.createArea(this.tempArea);
+		// this.tempArea = new AreaEmpty();
+		this.tempArea = Area.fromObject({
+			shape: "circle",
+			coords: [{ x: coords[0], y: coords[1] }],
+			radius: coords[2]
+		});
+		this.createArea(this.tempArea);
+		this.tempArea = new AreaEmpty();
+	}
+
+	/**
+	 * TAMBAHAN
+	 * untuk menggambar polygon berdasarkan coordinates
+	 */
+	drawPolyByCoord(coords:Array<number>) {
+		// this.tempArea = new AreaPoly([]);
+		// for (let i = 0; i < coords.length; i+=2) {
+		//   const coordinate = new Coord(coords[i], coords[i+1]);
+		//   this.tempArea.addCoord(coordinate);
+		// }
+		// this.tempArea.closed = true;
+		// this.createArea(this.tempArea);
+		// this.tempArea = new AreaEmpty();
+		this.tempArea = Area.fromObject({
+			shape: "poly",
+			coords: coords.map((v:number|object, i:number, a:Array<number>) => {
+			if (i % 2 === 0) {
+				return v = {
+					x: v,
+					y: a[i + 1]
+				}
+			}
+		}).filter(v => v),
+			closed: true
+		});
+		this.createArea(this.tempArea);
+		this.tempArea = new AreaEmpty();
 	}
 
 	//---------------------------- p5 Sketch ----------------------------------
@@ -143,7 +192,7 @@ export class imageMapCreator {
 		let canvas = this.p5.createCanvas(this.width, this.height);
 		canvas.drop(this.handeFile.bind(this)).dragLeave(this.onLeave.bind(this)).dragOver(this.onOver.bind(this));
 		//@ts-ignore p5 types does not specify the canvas attribute
-		this.settings = QuickSettings.create(this.p5.width + 5, 0, "Image-map Creator", this.p5.canvas.parentElement)    
+		this.settings = QuickSettings.create(this.p5.width + 5, 0, "Image-map Creator", this.p5.canvas.parentElement)
 			.setDraggable(false)
 			.addText("Map Name", "", (v: string) => { this.map.setName(v) })
 			.addDropDown("Tool", ["circle", "rectangle", "polygon", "select", "delete", "test"], (v: ToolLabel) => { this.setTool(v.value) })
@@ -154,7 +203,10 @@ export class imageMapCreator {
 			.addButton("Generate Html", () => { this.settings.setValue("Output", this.map.toHtml()) })
 			.addButton("Generate Svg", () => { this.settings.setValue("Output", this.map.toSvg()) })
 			.addButton("Generate Imf", () => { this.settings.setValue("Output", this.map.toImf()) })
-			.addButton("Generate Hot", () => { this.settings.setValue("Output", this.map.toHot()) })
+			.addButton("Generate Hot", () => { 
+				HandleCreatedArea.dispatch(document, null);
+				return this.settings.setValue("Output", this.map.toHot());
+			 })
 			.addTextArea("Output")
 			.addButton("Save", this.save.bind(this));
 		//@ts-ignore Fix for oncontextmenu
@@ -397,9 +449,9 @@ export class imageMapCreator {
 	}
 
 	handeFile(file: P5.File): void {
-    // const handleFileEvent = new Event('handleFile');
-    // handleFileEvent.data = {file: file.file};
-    HandleFileEvent.dispatch(document, file.file)
+		// const handleFileEvent = new Event('handleFile');
+		// handleFileEvent.data = {file: file.file};
+		HandleFileEvent.dispatch(document, file.file)
 		if (file.type == "image") {
 			this.img.data = this.p5.loadImage(file.data, img => this.resetView(img));
 			this.img.file = file.file;
@@ -414,7 +466,7 @@ export class imageMapCreator {
 					let reader = new FileReader();
 					reader.onload = () => {
 						let json = reader.result;
-						if (typeof(json) == "string") {
+						if (typeof (json) == "string") {
 							this.importMap(json);
 						}
 					};
@@ -534,7 +586,7 @@ export class imageMapCreator {
 	/**
 	 * Set the title of the canvas from an area
 	 */
-	setTitle(area: Area|null): void {
+	setTitle(area: Area | null): void {
 		if (this.tool == "test" && area && area.getTitle()) {
 			//@ts-ignore p5 types does not specify the canvas attribute
 			this.p5.canvas.setAttribute("title", area.getTitle());

@@ -24,3 +24,11 @@ export function randStr(length: number): string {
   }
   return result;
 }
+
+export function removeExtension(filename:string):string {
+  const parts = filename.split('.');
+  if (parts.length > 1) {
+    parts.pop(); // Remove the last element (extension)
+  }
+  return parts.join('.'); // Rejoin the remaining parts
+}

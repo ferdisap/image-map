@@ -2,6 +2,7 @@ import { Coord } from "./class.coord";
 import { ImageMap } from "./class.image-map";
 import type P5 from "p5";
 import { round } from "./utils";
+import { HandleCreatedArea } from "./HandleCreatedArea";
 
 export type Shape = "empty" | "rect" | "circle" | "poly" | "default";
 
